@@ -4,6 +4,7 @@ public class Container<T> {
     private ContainerNode<T> head;
     private int size;
 
+
     public Container() {
         this.head = null;
         this.size = 0;

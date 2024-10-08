@@ -7,6 +7,13 @@
     <artifactId>container</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>LabsJava</id>
+            <url>https://github.com/TheOneWinDev/LabsJava</url>
+        </repository>
+    </repositories>
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

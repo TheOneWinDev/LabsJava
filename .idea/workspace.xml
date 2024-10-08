@@ -53,7 +53,6 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "TestNG.ContainerTest.executor": "Run",
-    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "/Users/windev/IdeaProjects/container/src/test/java",
     "node.js.detected.package.eslint": "true",
@@ -105,7 +104,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728365008880</updated>
-      <workItem from="1728365010125" duration="5416000" />
+      <workItem from="1728365010125" duration="5820000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />

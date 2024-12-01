@@ -15,7 +15,6 @@
     </properties>
 
     <dependencies>
-        <!-- JUnit 5 dependency -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -29,7 +28,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- TestNG dependency (если вам нужно для других тестов) -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

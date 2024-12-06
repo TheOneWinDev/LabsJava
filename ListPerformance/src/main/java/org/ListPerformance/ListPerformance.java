@@ -1,70 +1,84 @@
 package org.ListPerformance;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Класс для тестирования производительности коллекций ArrayList и LinkedList.
- * Сравниваются методы add, remove и get.
+ * Класс для проведения тестов производительности операций с коллекциями List.
+ * Реализует интерфейс {@link ListPerformanceInterface} для тестирования добавления,
+ * получения и удаления элементов в различных реализациях List.
  */
-public class ListPerformance {
+public class ListPerformance implements ListPerformanceInterface {
+    // Список для хранения результатов тестов
+    private final List<ListPerformanceResult> results = new ArrayList<>();
 
     /**
-     * Тестирует производительность коллекций ArrayList и LinkedList для заданного количества операций.
+     * Тестирует операцию добавления элементов в список.
+     * Измеряет время, затраченное на добавление {@code iterations} элементов в список.
      *
-     * @param iterations количество итераций для выполнения операций
+     * @param list       Список, в который добавляются элементы.
+     * @param iterations Количество элементов для добавления.
      */
-    public static void testPerformance(int iterations) {
-        // Сравнение ArrayList
-        List<Integer> arrayList = new ArrayList<>();
-        System.out.println("ArrayList:");
-        testListOperations(arrayList, iterations);
-
-        // Сравнение LinkedList
-        List<Integer> linkedList = new LinkedList<>();
-        System.out.println("LinkedList:");
-        testListOperations(linkedList, iterations);
+    @Override
+    public void testAdd(List<Integer> list, int iterations) {
+        long startTime = System.nanoTime();  // Время начала выполнения
+        for (int i = 0; i < iterations; i++) {
+            list.add(i);  // Добавление элементов в список
+        }
+        long endTime = System.nanoTime();  // Время окончания выполнения
+        results.add(new ListPerformanceResult("add", endTime - startTime));  // Сохранение результата теста
     }
 
     /**
-     * Выполняет операции с коллекцией и измеряет время их выполнения.
+     * Тестирует операцию получения элементов из списка.
+     * Измеряет время, затраченное на получение {@code iterations} элементов из списка.
      *
-     * @param list коллекция для тестирования
-     * @param iterations количество итераций
+     * @param list       Список, из которого получаются элементы.
+     * @param iterations Количество элементов для получения.
      */
-    private static void testListOperations(List<Integer> list, int iterations) {
-        long startTime, endTime;
-
-        // Тестирование метода add
-        startTime = System.nanoTime();
+    @Override
+    public void testGet(List<Integer> list, int iterations) {
+        long startTime = System.nanoTime();  // Время начала выполнения
         for (int i = 0; i < iterations; i++) {
-            list.add(i);
+            list.get(i);  // Получение элементов из списка
         }
-        endTime = System.nanoTime();
-        System.out.printf("add: %d раз, время: %d нс\n", iterations, (endTime - startTime));
+        long endTime = System.nanoTime();  // Время окончания выполнения
+        results.add(new ListPerformanceResult("get", endTime - startTime));  // Сохранение результата теста
+    }
 
-        // Тестирование метода get
-        startTime = System.nanoTime();
-        for (int i = 0; i < iterations; i++) {
-            list.get(i);
-        }
-        endTime = System.nanoTime();
-        System.out.printf("get: %d раз, время: %d нс\n", iterations, (endTime - startTime));
-
-        // Тестирование метода remove
-        startTime = System.nanoTime();
-        // Удаление первого элемента
+    /**
+     * Тестирует операцию удаления элементов из списка.
+     * Измеряет время, затраченное на удаление {@code iterations} элементов из начала списка.
+     *
+     * @param list       Список, из которого удаляются элементы.
+     * @param iterations Количество элементов для удаления.
+     */
+    @Override
+    public void testRemove(List<Integer> list, int iterations) {
+        long startTime = System.nanoTime();  // Время начала выполнения
         if (iterations > 0) {
-            list.subList(0, iterations).clear();
+            list.subList(0, iterations).clear();  // Удаление элементов из списка
         }
-        endTime = System.nanoTime();
-        System.out.printf("remove: %d раз, время: %d нс\n", iterations, (endTime - startTime));
+        long endTime = System.nanoTime();  // Время окончания выполнения
+        results.add(new ListPerformanceResult("remove", endTime - startTime));  // Сохранение результата теста
     }
 
-    public static void main(String[] args) {
-        // Количество операций для тестирования
-        int iterations = 1000;
-        testPerformance(iterations);
+    /**
+     * Отображает результаты всех тестов в виде таблицы.
+     */
+    @Override
+    public void displayResults() {
+        // Формирование строки таблицы с результатами
+        String table = results.stream()
+                .map(result -> String.format("| %-10s | %15d нс |", result.getOperation(), result.getDuration()))
+                .collect(Collectors.joining("\n"));
+
+        // Вывод заголовка таблицы и данных
+        System.out.println("+------------+---------------------+");
+        System.out.println("| Операция   | Время выполнения    |");
+        System.out.println("+------------+---------------------+");
+        System.out.println(table);
+        System.out.println("+------------+---------------------+");
     }
 }

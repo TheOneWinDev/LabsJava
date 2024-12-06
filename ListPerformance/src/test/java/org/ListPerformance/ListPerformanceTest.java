@@ -1,119 +1,164 @@
 package org.ListPerformance;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Модульные тесты для класса ListPerformance, проверяющие производительность
+ * и корректность операций для различных реализаций List (ArrayList и LinkedList).
+ */
 public class ListPerformanceTest {
+    private ListPerformance tester;
 
     /**
-     * Тест производительности для ArrayList с 1000 операциями.
+     * Инициализация объекта ListPerformance перед каждым тестом.
      */
-    @Test
-    public void testArrayListPerformance() {
-        long startTime = System.nanoTime();
-        ListPerformance.testPerformance(1000); // Тестируем на 1000 операций
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
-
-        // Проверка, что время выполнения теста не превышает разумного предела (например, 1 секунда)
-        Assertions.assertTrue(duration < 1000000000, "Тест производительности слишком долгий для ArrayList");
+    @BeforeEach
+    void setUp() {
+        tester = new ListPerformance();
     }
 
     /**
-     * Тест производительности для LinkedList с 1000 операциями.
+     * Тестирует метод {@code testAdd} для ArrayList с фиксированным количеством итераций.
      */
     @Test
-    public void testLinkedListPerformance() {
-        long startTime = System.nanoTime();
-        ListPerformance.testPerformance(1000); // Тестируем на 1000 операций
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+    void testAddArrayList() {
+        List<Integer> arrayList = new ArrayList<>();
+        int iterations = 1000;
 
-        // Проверка, что время выполнения теста не превышает разумного предела (например, 1 секунда)
-        Assertions.assertTrue(duration < 1000000000, "Тест производительности слишком долгий для LinkedList");
+        // Проверяем, что метод testAdd не вызывает исключений
+        assertDoesNotThrow(() -> tester.testAdd(arrayList, iterations),
+                "Метод testAdd завершился с исключением для ArrayList");
+        // Проверяем, что размер списка совпадает с количеством итераций
+        assertEquals(iterations, arrayList.size(),
+                "Размер ArrayList должен совпадать с количеством итераций после добавления");
     }
 
     /**
-     * Тест производительности для ArrayList с 100 операциями.
+     * Тестирует метод {@code testAdd} для LinkedList с фиксированным количеством итераций.
      */
     @Test
-    public void testArrayListPerformanceSmall() {
-        long startTime = System.nanoTime();
-        ListPerformance.testPerformance(100); // Тестируем на 100 операций
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+    void testAddLinkedList() {
+        List<Integer> linkedList = new LinkedList<>();
+        int iterations = 1000;
 
-        // Проверка, что время выполнения теста не превышает разумного предела (например, 1 секунда)
-        Assertions.assertTrue(duration < 1000000000, "Тест производительности слишком долгий для ArrayList");
+        // Проверяем, что метод testAdd не вызывает исключений
+        assertDoesNotThrow(() -> tester.testAdd(linkedList, iterations),
+                "Метод testAdd завершился с исключением для LinkedList");
+        // Проверяем, что размер списка совпадает с количеством итераций
+        assertEquals(iterations, linkedList.size(),
+                "Размер LinkedList должен совпадать с количеством итераций после добавления");
     }
 
     /**
-     * Тест производительности для LinkedList с 100 операциями.
+     * Тестирует метод {@code testGet} для ArrayList с предварительно добавленными данными.
      */
     @Test
-    public void testLinkedListPerformanceSmall() {
-        long startTime = System.nanoTime();
-        ListPerformance.testPerformance(100); // Тестируем на 100 операций
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+    void testGetArrayList() {
+        List<Integer> arrayList = new ArrayList<>();
+        int iterations = 1000;
+        for (int i = 0; i < iterations; i++) {
+            arrayList.add(i);
+        }
 
-        // Проверка, что время выполнения теста не превышает разумного предела (например, 1 секунда)
-        Assertions.assertTrue(duration < 1000000000, "Тест производительности слишком долгий для LinkedList");
+        // Проверяем, что метод testGet не вызывает исключений
+        assertDoesNotThrow(() -> tester.testGet(arrayList, iterations),
+                "Метод testGet завершился с исключением для ArrayList");
     }
 
     /**
-     * Тест производительности для ArrayList с 5000 операциями.
+     * Тестирует метод {@code testGet} для LinkedList с предварительно добавленными данными.
      */
     @Test
-    public void testArrayListPerformanceMedium() {
-        long startTime = System.nanoTime();
-        ListPerformance.testPerformance(5000); // Тестируем на 5000 операций
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+    void testGetLinkedList() {
+        List<Integer> linkedList = new LinkedList<>();
+        int iterations = 1000;
+        for (int i = 0; i < iterations; i++) {
+            linkedList.add(i);
+        }
 
-        // Проверка, что время выполнения теста не превышает разумного предела
-        Assertions.assertTrue(duration < 5000000000L, "Тест производительности слишком долгий для ArrayList");
+        // Проверяем, что метод testGet не вызывает исключений
+        assertDoesNotThrow(() -> tester.testGet(linkedList, iterations),
+                "Метод testGet завершился с исключением для LinkedList");
     }
 
     /**
-     * Тест производительности для LinkedList с 5000 операциями.
+     * Тестирует метод {@code testRemove} для ArrayList после добавления элементов.
      */
     @Test
-    public void testLinkedListPerformanceMedium() {
-        long startTime = System.nanoTime();
-        ListPerformance.testPerformance(5000); // Тестируем на 5000 операций
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+    void testRemoveArrayList() {
+        List<Integer> arrayList = new ArrayList<>();
+        int iterations = 1000;
+        for (int i = 0; i < iterations; i++) {
+            arrayList.add(i);
+        }
 
-        // Проверка, что время выполнения теста не превышает разумного предела
-        Assertions.assertTrue(duration < 5000000000L, "Тест производительности слишком долгий для LinkedList");
+        // Проверяем, что метод testRemove не вызывает исключений
+        assertDoesNotThrow(() -> tester.testRemove(arrayList, iterations),
+                "Метод testRemove завершился с исключением для ArrayList");
+        // Проверяем, что ArrayList пуст после удаления всех элементов
+        assertTrue(arrayList.isEmpty(),
+                "ArrayList должен быть пустым после удаления всех элементов");
     }
 
     /**
-     * Тест производительности для ArrayList с 10000 операциями.
+     * Тестирует метод {@code testRemove} для LinkedList после добавления элементов.
      */
     @Test
-    public void testArrayListPerformanceLarge() {
-        long startTime = System.nanoTime();
-        ListPerformance.testPerformance(10000); // Тестируем на 10000 операций
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+    void testRemoveLinkedList() {
+        List<Integer> linkedList = new LinkedList<>();
+        int iterations = 1000;
+        for (int i = 0; i < iterations; i++) {
+            linkedList.add(i);
+        }
 
-        // Проверка, что время выполнения теста не превышает разумного предела
-        Assertions.assertTrue(duration < 10000000000L, "Тест производительности слишком долгий для ArrayList");
+        // Проверяем, что метод testRemove не вызывает исключений
+        assertDoesNotThrow(() -> tester.testRemove(linkedList, iterations),
+                "Метод testRemove завершился с исключением для LinkedList");
+        // Проверяем, что LinkedList пуст после удаления всех элементов
+        assertTrue(linkedList.isEmpty(),
+                "LinkedList должен быть пустым после удаления всех элементов");
     }
 
     /**
-     * Тест производительности для LinkedList с 10000 операциями.
+     * Тестирует работу всех методов с нулевым количеством итераций, чтобы убедиться в их корректности для пустых операций.
      */
     @Test
-    public void testLinkedListPerformanceLarge() {
-        long startTime = System.nanoTime();
-        ListPerformance.testPerformance(10000); // Тестируем на 10000 операций
-        long endTime = System.nanoTime();
-        long duration = endTime - startTime;
+    void testZeroIterations() {
+        List<Integer> arrayList = new ArrayList<>();
+        // Проверяем работу метода testAdd с нулевым количеством элементов
+        assertDoesNotThrow(() -> tester.testAdd(arrayList, 0),
+                "Ошибка при добавлении нулевого количества элементов");
+        // Проверяем работу метода testGet с пустым списком
+        assertDoesNotThrow(() -> tester.testGet(arrayList, 0),
+                "Ошибка при получении из пустого списка");
+        // Проверяем работу метода testRemove с пустым списком
+        assertDoesNotThrow(() -> tester.testRemove(arrayList, 0),
+                "Ошибка при удалении из пустого списка");
+        // Проверяем, что список остаётся пустым при нулевых итерациях
+        assertTrue(arrayList.isEmpty(),
+                "ArrayList должен оставаться пустым при нулевых итерациях");
+    }
 
-        // Проверка, что время выполнения теста не превышает разумного предела
-        Assertions.assertTrue(duration < 10000000000L, "Тест производительности слишком долгий для LinkedList");
+    /**
+     * Тестирует метод {@code testAdd} с большим количеством итераций, чтобы проверить масштабируемость.
+     */
+    @Test
+    void testLargeIterations() {
+        List<Integer> arrayList = new ArrayList<>();
+        int iterations = 1_000_000;
+
+        // Проверяем метод testAdd с большим количеством элементов
+        assertDoesNotThrow(() -> tester.testAdd(arrayList, iterations),
+                "Метод testAdd завершился с исключением для большого числа итераций");
+        // Проверяем, что размер списка совпадает с количеством итераций
+        assertEquals(iterations, arrayList.size(),
+                "Размер ArrayList должен совпадать с количеством итераций");
     }
 }

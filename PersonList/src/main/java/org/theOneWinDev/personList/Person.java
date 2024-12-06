@@ -1,5 +1,7 @@
 package org.theOneWinDev.personList;
 
+import java.util.Date;
+
 /**
  * Класс, представляющий человека.
  * Содержит информацию о человеке, такую как его идентификатор, имя, пол, подразделение, зарплата и дата рождения.
@@ -10,7 +12,7 @@ public class Person {
     private String gender;
     private Department department;
     private double salary;
-    private String birthDate;
+    private Date birthDate;
 
     /**
      * Конструктор для создания объекта {@code Person}.
@@ -18,11 +20,11 @@ public class Person {
      * @param id Идентификатор человека.
      * @param name Имя человека.
      * @param gender Пол человека.
-     * @param department Подразделение, в котором работает человек.
+     * @param department Подразделение, к которому относится человек.
      * @param salary Зарплата человека.
      * @param birthDate Дата рождения человека.
      */
-    public Person(int id, String name, String gender, Department department, double salary, String birthDate) {
+    public Person(int id, String name, String gender, Department department, double salary, Date birthDate) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -59,7 +61,7 @@ public class Person {
     }
 
     /**
-     * Возвращает подразделение, в котором работает человек.
+     * Возвращает подразделение, к которому принадлежит человек.
      *
      * @return Подразделение человека.
      */
@@ -81,7 +83,7 @@ public class Person {
      *
      * @return Дата рождения человека.
      */
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 }

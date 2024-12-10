@@ -10,37 +10,48 @@ class InjectorTest {
     private Injector injector;
     private SomeBean someBean;
 
+    /**
+     * Инициализация перед каждым тестом. Создает экземпляры инжектора и SomeBean.
+     */
     @BeforeEach
     void setUp() {
         injector = new Injector();
         someBean = new SomeBean();
     }
 
+    /**
+     * Тест для инъекции зависимости с единственным интерфейсом.
+     * Проверяет, что интерфейс корректно внедряется и его метод работает.
+     */
     @Test
     void testInjectSingleInterface() {
-        // Create a bean with a single interface
+        // Создаем бин с единственным интерфейсом
         class SomeBeanWithSingleInterface {
             @AutoInjectable
             private SomeInterface someInterface;
         }
 
         SomeBeanWithSingleInterface bean = new SomeBeanWithSingleInterface();
-        // Assuming the properties file has a valid entry for SomeInterface
+        // Предполагаем, что в файле свойств есть правильная запись для SomeInterface
         System.setProperty("config.properties", "src/test/resources/config.properties");
 
-        // Inject the dependency
+        // Выполняем инъекцию зависимости
         injector.inject(bean);
 
-        // Assert that the field is injected
+        // Проверяем, что поле внедрено
         assertNotNull(bean.someInterface);
 
-        // Check if the method works correctly
+        // Проверяем, что метод работает корректно
         bean.someInterface.doSomething();
     }
 
+    /**
+     * Тест для случая, когда в бине нет аннотаций @AutoInjectable.
+     * Проверяет, что инъекция не происходит, если поля не аннотированы.
+     */
     @Test
     void testInjectWithNoAnnotations() {
-        // Create a bean without any @AutoInjectable annotations
+        // Создаем бин без аннотаций @AutoInjectable
         class SomeBeanWithoutAnnotations {
             private SomeInterface someInterface;
             private SomeOtherInterface someOtherInterface;
@@ -49,15 +60,18 @@ class InjectorTest {
         SomeBeanWithoutAnnotations beanWithoutAnnotations = new SomeBeanWithoutAnnotations();
         injector.inject(beanWithoutAnnotations);
 
-        // Assert that no injection happens when there are no annotations
+        // Проверяем, что инъекция не происходит, если поля не аннотированы
         assertNull(beanWithoutAnnotations.someInterface);
         assertNull(beanWithoutAnnotations.someOtherInterface);
     }
 
-    // New test: Check valid injection with the correct interface in properties
+    /**
+     * Новый тест: Проверка корректной инъекции, когда интерфейс указан в файле свойств.
+     * Проверяет, что зависимости внедряются правильно, если они указаны в конфигурационном файле.
+     */
     @Test
     void testInjectWhenInterfaceIsInProperties() {
-        // Create a bean with a field annotated with @AutoInjectable
+        // Создаем бин с полем, аннотированным @AutoInjectable
         class SomeBeanWithValidInterface {
             @AutoInjectable
             private SomeInterface someInterface;
@@ -65,16 +79,16 @@ class InjectorTest {
 
         SomeBeanWithValidInterface bean = new SomeBeanWithValidInterface();
 
-        // Simulate that the SomeInterface is correctly mapped in config.properties
+        // Симулируем, что интерфейс SomeInterface корректно настроен в config.properties
         System.setProperty("config.properties", "src/test/resources/config.properties");
 
-        // Inject the dependencies
+        // Выполняем инъекцию зависимостей
         injector.inject(bean);
 
-        // Assert that the field is injected
+        // Проверяем, что поле внедрено
         assertNotNull(bean.someInterface);
 
-        // Check if the method works correctly
+        // Проверяем, что метод работает корректно
         bean.someInterface.doSomething();
     }
 }
